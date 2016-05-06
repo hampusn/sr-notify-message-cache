@@ -1,0 +1,10 @@
+sickrage:
+  host: example.com:80
+  api_key: abcdefghijklmnopqrstuv0123456789
+
+message_cache:
+  host: example2.com:80
+  path: /api/messages
+  basic_auth:
+    username: user
+    password: pass
