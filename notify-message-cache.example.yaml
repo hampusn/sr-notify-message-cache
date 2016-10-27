@@ -1,9 +1,13 @@
 sickrage:
-  host: example.com:80
+  host: example.com
+  port: 80
+  https: false
   api_key: abcdefghijklmnopqrstuv0123456789
 
 message_cache:
-  host: example2.com:80
+  host: example2.com
+  port: 443
+  https: true
   path: /api/messages
   basic_auth:
     username: user

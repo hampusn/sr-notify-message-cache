@@ -46,10 +46,10 @@ def show_name(json_string):
     return data["data"]["show_name"]
 
 
-def new_connection(hostname, https):
+def new_connection(hostname, port, https):
     if https == True:
-        return httplib.HTTPSConnection(hostname)
-    return httplib.HTTPConnection(hostname)
+        return httplib.HTTPSConnection(hostname, port, timeout=3)
+    return httplib.HTTPConnection(hostname, port, timeout=3)
 
 
 def request_response(conn, type, path, params, headers):
@@ -73,7 +73,7 @@ def run():
     config = yaml.safe_load(open(yaml_path))
 
     # Get Show name
-    conn = new_connection(config['sickrage']['host'], False)
+    conn = new_connection(config['sickrage']['host'], config['sickrage']['port'], config['sickrage']['https'])
     response = request_response(conn, "GET", "/api/" + config['sickrage']['api_key'] + "/?cmd=show&indexerid=" + SHOW_ID, {}, {})
     show = show_name(response.read()) if (response.status == 200) else "N/A"
     conn.close()
@@ -91,7 +91,7 @@ def run():
     headers = {"content-type": "application/x-www-form-urlencoded",
                "authorization": "Basic %s" % auth}
 
-    conn = new_connection(config['message_cache']['host'], False)
+    conn = new_connection(config['message_cache']['host'], config['message_cache']['port'], config['message_cache']['https'])
     response = request_response(conn, "POST", config['message_cache']['path'], params, headers)
     conn.close()
 
